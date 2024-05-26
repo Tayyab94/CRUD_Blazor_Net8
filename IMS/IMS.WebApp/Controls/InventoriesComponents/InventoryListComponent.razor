@@ -1,0 +1,46 @@
+﻿@inject IViewInventoriesByNameUseCase ViewInventoriesByNameUseCase
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+   @*      @foreach(var invList in inventoryList)
+        {
+            <tr>
+                <td>@invList.InventoryName</td>
+                <td>@invList.Quantity</td>
+                <td>@invList.Price.ToString("c")</td>
+                <td>
+                    <button type="button" class="btn btn-light" @onclick="@(()=> EditInventory(invList.InventoryId))">Edit</button>
+                </td>
+            </tr>
+        } *@
+
+        <InventoryListItemComponent Inventories="inventoryList"></InventoryListItemComponent>
+    </tbody>
+</table>
+
+
+@code {
+    private List<Inventory> inventoryList = new List<Inventory>();
+
+    [Parameter]
+    public string SearchTerm { get; set; } = string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // return base.OnParametersSetAsync();
+
+        inventoryList= (await ViewInventoriesByNameUseCase.ExecuteAsync(SearchTerm)).ToList();
+    }
+
+     
+
+
+}

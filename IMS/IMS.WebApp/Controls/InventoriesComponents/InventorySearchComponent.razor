@@ -1,0 +1,24 @@
+﻿
+<div class="input-group">
+        <input type="type"
+           class="form-control" placeholder="Type Inventory Name here for search"
+           @bind-value="inventoryNameToSearch"
+           />
+          
+          <button type="button" class="btn btn-success input-group-text" @onclick="OnSearch">
+              Seach
+          </button>
+</div>
+
+@code {
+    private string inventoryNameToSearch = string.Empty;
+
+    // Pass the Value from child to Parent Component.. we will use EventCallback
+    [Parameter]
+    public EventCallback<string> OnSearchInventory{ get; set; }
+
+    private void OnSearch()
+    {
+        OnSearchInventory.InvokeAsync(inventoryNameToSearch);
+    }
+}

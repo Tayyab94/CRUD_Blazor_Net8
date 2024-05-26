@@ -1,0 +1,53 @@
+﻿@page "/addInventory"
+
+@inject IAddInventoryUseCase AddInventoryUseCase
+@inject NavigationManager _navigationManager
+
+<PageTitle>Add-Inventory</PageTitle>
+
+<h2>Add Inventory</h2>
+
+<br />
+
+<EditForm Model="Inventory" OnValidSubmit="SaveInventory">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary class="text-danger"></ValidationSummary>
+    <div class="form-group">
+        <label for="name">Inventory Name</label>
+        <InputText @bind-Value="Inventory.InventoryName" class="form-control"
+                   id="name"></InputText>
+    </div>
+
+    <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <InputNumber @bind-Value="Inventory.Quantity" class="form-control"
+                     id="quantity"></InputNumber>
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price</label>
+        <InputNumber @bind-Value="Inventory.Price" class="form-control"
+                     id="price"></InputNumber>
+    </div>
+    <br />
+
+    <button class="btn btn-primary" type="submit">Save</button>
+    <button class="btn btn-danger" type="button" @onclick="CancenFunction">cancel</button>
+</EditForm>
+
+@code {
+    private Inventory Inventory = new Inventory();
+
+    private async Task SaveInventory()
+    {
+        await AddInventoryUseCase.ExecuteAsycn(Inventory);
+        _navigationManager.NavigateTo("/inventories");
+    }
+
+    private void CancenFunction()
+    {
+        Inventory = new(); // To Reset the Form
+        // _navigationManager.NavigateTo("/inventories");
+    }
+}
